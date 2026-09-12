@@ -6,7 +6,7 @@ An end-to-end data pipeline that ingests 27 corporate entity datasets from [data
 
 | Layer | Tool / Technology | Purpose |
 | --- | --- | --- |
-| Source | data.gov.sg REST API (v2) | Collection of 27 corporate entity datasets (A–Z + Others) |
+| Source | data.gov.sg API | Collection of 27 corporate entity datasets (A–Z + Others) |
 | Secret Management | Databricks Unity Catalog Secrets | Stores the data.gov.sg API key |
 | Ingestion (API → Stage) | Python notebook + `requests` | Downloads CSVs via poll-based download API |
 | Storage (Stage) | Unity Catalog Volume | Stores CSV snapshots by date (YYYYMMDD) |
@@ -20,7 +20,7 @@ An end-to-end data pipeline that ingests 27 corporate entity datasets from [data
 
 **File:** `ingestion/data_gov_sg_to_uc_volume.ipynb`
 
-**Input:** data.gov.sg REST API
+**Input:** [data.gov.sg - ACRA Information on Corporate Entities Dataset](https://data.gov.sg/collections/2/view)
 
 ![API to Stage - Input](./screenshots/ingestion_input.png)
 
@@ -40,11 +40,11 @@ An end-to-end data pipeline that ingests 27 corporate entity datasets from [data
 
 **Input:** CSV files in UC Volume snapshot folder
 
-![Stage to Bronze - Input](./screenshots/bronze_input.png)
-
 **Output:** Single consolidated bronze table `bronze_acra_corporate_entities` (2,110,094 rows)
 
-![Stage to Bronze - Output](./screenshots/bronze_output.png)
+![Bronze Table Overview](./screenshots/bronze_output_1.png)
+
+![Bronze Table Sample Data](./screenshots/bronze_output_2.png)
 
 **Steps:**
 - Auto Loader reads all CSV files from the UC Volume snapshot path
@@ -54,7 +54,7 @@ An end-to-end data pipeline that ingests 27 corporate entity datasets from [data
 
 ### Stage 3 — Data Discovery
 
-**Tool:** Databricks AI/BI Dashboards
+**Tool:** Databricks Dashboards
 
 Quick analytics built on top of the full bronze dataset to explore entity distributions, statuses, registration trends, and more.
 
